@@ -60,6 +60,7 @@
         app:layout_constraintStart_toStartOf="@+id/path"
         app:layout_constraintTop_toTopOf="@+id/host"
         app:layout_constraintBottom_toBottomOf="@id/host"
+        tools:visibility="gone"
         tools:src="@drawable/chucker_ic_https" />
 
     <TextView

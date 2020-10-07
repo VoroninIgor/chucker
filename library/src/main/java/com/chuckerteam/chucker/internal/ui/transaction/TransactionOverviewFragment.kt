@@ -77,7 +77,7 @@ internal class TransactionOverviewFragment : Fragment() {
             requestSizeLabel.isVisible = false
             responseSizeLabel.isVisible = false
             totalSizeLabel.isVisible = false
-            ssl.isVisible = false
+            ssl.visibility = View.GONE
             protocolLabel.isVisible = false
         }
     }
