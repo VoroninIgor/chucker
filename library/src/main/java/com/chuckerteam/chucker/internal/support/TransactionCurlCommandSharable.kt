@@ -9,24 +9,30 @@ internal class TransactionCurlCommandSharable(
     private val transaction: Transaction,
 ) : Sharable {
     override fun toSharableContent(context: Context): Source = Buffer().apply {
-        var compressed = false
-        writeUtf8("curl -X ${transaction.method}")
+        writeUtf8("grpcurl")
+
+        val requestBody = transaction.requestBody ?: ""
+        if (requestBody.isNotEmpty()) {
+            writeUtf8(" -d")
+            writeUtf8(" \"${requestBody.replace("\n", "\\n")}\"")
+        }
+
         val headers = transaction.getParsedRequestHeaders()
+        if (headers?.isNotEmpty() == true) {
+            writeUtf8(" -H")
 
-        headers?.forEach { header ->
-            if ("Accept-Encoding".equals(header.name, ignoreCase = true) &&
-                "gzip".equals(header.value, ignoreCase = true)
-            ) {
-                compressed = true
+            writeUtf8("\"")
+            headers.forEachIndexed { index, header ->
+                writeUtf8("\"${header.name}: ${header.value}\"")
+                if (index > 0) {
+                    writeUtf8(", ")
+                }
             }
-            writeUtf8(" -H \"${header.name}: ${header.value}\"")
+            writeUtf8("\"")
         }
 
-        val requestBody = transaction.requestBody
-        if (!requestBody.isNullOrEmpty()) {
-            // try to keep to a single line and use a subshell to preserve any line breaks
-            writeUtf8(" --data $'${requestBody.replace("\n", "\\n")}'")
-        }
-        writeUtf8((if (compressed) " --compressed " else " ") + transaction.getFormattedUrl(encode = false))
+        writeUtf8(" " + transaction.urlFormatted)
+        writeUtf8(" " + transaction.method)
+
     }
 }
