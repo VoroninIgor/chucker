@@ -32,7 +32,7 @@ internal class TransactionCurlCommandSharable(
             writeUtf8(" -d")
             writeUtf8(" \"{")
 
-            val pattern: Pattern = Pattern.compile("[a-zA-Z:]+")
+            val pattern: Pattern = Pattern.compile("[a-zA-Z]+")
             val matcher: Matcher = pattern.matcher(requestBody)
             var list = ArrayList<String>()
             while (matcher.find()) {
