@@ -6,12 +6,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.chuckerteam.chucker.internal.support.FormatUtils
-import com.chuckerteam.chucker.internal.support.FormattedUrl
 import com.chuckerteam.chucker.internal.support.JsonConverter
 import com.google.gson.reflect.TypeToken
-import okhttp3.Headers
-import okhttp3.HttpUrl
 import java.util.Date
+import okhttp3.Headers
 
 /**
  * Represent a full HTTP transaction (with Request and Response). Instances of this classes
@@ -71,7 +69,7 @@ internal class Transaction(
         }
 
     val urlFormatted: String?
-        get() = "${url?:""}:${port?:""}"
+        get() = "${url ?: ""}:${port ?: ""}"
 
     val requestDateString: String?
         get() = requestDate?.let { Date(it).toString() }
@@ -156,13 +154,11 @@ internal class Transaction(
     }
 
     fun getFormattedUrl(encode: Boolean): String {
-        val httpUrl = url?.let(HttpUrl::get) ?: return ""
-        return FormattedUrl.fromHttpUrl(httpUrl, encode).url
+        return url ?: ""
     }
 
     fun getFormattedPath(encode: Boolean): String {
-        val httpUrl = url?.let(HttpUrl::get) ?: return ""
-        return FormattedUrl.fromHttpUrl(httpUrl, encode).pathWithQuery
+        return url ?: ""
     }
 
     // Not relying on 'equals' because comparison be long due to request and response sizes
