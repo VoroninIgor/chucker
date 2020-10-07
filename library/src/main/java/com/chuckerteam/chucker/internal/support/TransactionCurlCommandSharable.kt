@@ -27,7 +27,7 @@ internal class TransactionCurlCommandSharable(
             writeUtf8("\"")
         }
 
-        var requestBody = transaction.requestBody ?: "".replace("\n", "")
+        var requestBody = (transaction.requestBody ?: "").replace("\n", "")
         if (requestBody.isNotEmpty()) {
             writeUtf8(" -d")
             writeUtf8(" \"{")
