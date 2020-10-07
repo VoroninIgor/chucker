@@ -32,7 +32,7 @@ internal class TransactionCurlCommandSharable(
             writeUtf8(" -d")
             writeUtf8(" \"{")
 
-            val pattern: Pattern = Pattern.compile("[a-zA-Z]+")
+            val pattern: Pattern = Pattern.compile("[a-zA-Z:]+")
             val matcher: Matcher = pattern.matcher(requestBody)
             var list = ArrayList<String>()
             while (matcher.find()) {
@@ -40,7 +40,7 @@ internal class TransactionCurlCommandSharable(
             }
             list = removeDuplicates(list)
             list.forEach { word->
-                requestBody = requestBody.replace(word, "\"$requestBody\"")
+                requestBody = requestBody.replace(word, "\\\"$word\\\"")
             }
 
             writeUtf8(requestBody)
