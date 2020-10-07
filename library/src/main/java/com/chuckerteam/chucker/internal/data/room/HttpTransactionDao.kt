@@ -13,13 +13,13 @@ import com.chuckerteam.chucker.internal.data.entity.TransactionTuple
 internal interface HttpTransactionDao {
 
     @Query(
-        "SELECT id, requestDate, tookMs, method, port, host, responseCode, error FROM " +
+        "SELECT id, requestDate, tookMs, method, port, url, responseCode, error FROM " +
             "transactions ORDER BY requestDate DESC"
     )
     fun getSortedTuples(): LiveData<List<TransactionTuple>>
 
     @Query(
-        "SELECT id, requestDate, tookMs, port, host, method, responseCode, error FROM " +
+        "SELECT id, requestDate, tookMs, port, url, method, responseCode, error FROM " +
             "transactions WHERE responseCode LIKE :codeQuery LIKE :pathQuery " +
             "ORDER BY requestDate DESC"
     )
